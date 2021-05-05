@@ -2,7 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const State = ({ name, totalCases, population, caseRate, stateDays, id }) => {
+const State = ({ name, totalCases, population, caseRate, id }) => {
   return (
     <div className="col s3 m3" style={{ width: '250px' }}>
       <div className="card blue-grey darken-1">
@@ -11,7 +11,7 @@ const State = ({ name, totalCases, population, caseRate, stateDays, id }) => {
           <p>Total Cases: ${totalCases}</p>
           <p>Population: ${population}</p>
           <p>Cases as % of Population: ${caseRate}%</p>
-          <p>Most recent entry: ${stateDays[stateDays.length - 1].date}</p>
+          {/* <p>Most recent entry: ${stateDays[stateDays.length - 1].date}</p> */}
         </div>
         <div className="card-action">
           <button
@@ -45,6 +45,5 @@ State.propTypes = {
   totalCases: PropTypes.number,
   population: PropTypes.number,
   caseRate: PropTypes.number,
-  stateDays: PropTypes.number,
   id: PropTypes.number
 }

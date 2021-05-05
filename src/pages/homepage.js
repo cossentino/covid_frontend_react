@@ -1,4 +1,5 @@
-import React from 'react';
+import React from 'react'
+import StatesContainer from '../containers/states_container'
 
 export default function Homepage() {
   return (
@@ -18,9 +19,9 @@ export default function Homepage() {
           <a href="https://www.census.gov/programs-surveys/popest/data/data-sets.html">data</a>{' '}
           courtesy of US Census Bureau
         </p>
-
+        <StatesContainer />
         {/* List of states */}
       </div>
     </div>
-  );
+  )
 }
