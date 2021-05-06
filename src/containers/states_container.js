@@ -23,7 +23,7 @@ const StatesContainer = () => {
   return states.length === 0 ? (
     <Skeleton count={1} height={60} />
   ) : (
-    <div>
+    <div className="grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-lg my-8">
       {states.map((s) => (
         <State state={s} />
       ))}
