@@ -1,8 +1,10 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import fetchStates from '../services/fetchStates'
+import Skeleton from 'react-loading-skeleton'
 import useStates from '../hooks/use_states'
+import State from '../components/state'
 
 const StatesContainer = () => {
   // const [name, setName] = useState('')
@@ -13,12 +15,18 @@ const StatesContainer = () => {
 
   // useEffect(() => {
   // }, [])
-  const states = useStates()
-  console.log(states.states[0])
+  // name, total cases, population, case_rate, state_days?, id
 
-  return (
+  const states = useStates()
+  console.log(states)
+
+  return states.length === 0 ? (
+    <Skeleton count={1} height={60} />
+  ) : (
     <div>
-      <p>I am the states container</p>
+      {states.map((s) => (
+        <State state={s} />
+      ))}
     </div>
   )
 }
