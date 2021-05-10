@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, memo } from 'react'
 import PropTypes from 'prop-types'
 import Skeleton from 'react-loading-skeleton'
 import useStates from '../hooks/use_states'
@@ -18,7 +18,6 @@ const StatesContainer = () => {
   // name, total cases, population, case_rate, state_days?, id
 
   const states = useStates()
-  console.log(states)
 
   return states.length === 0 ? (
     <Skeleton count={1} height={60} />
@@ -31,4 +30,4 @@ const StatesContainer = () => {
   )
 }
 
-export default StatesContainer
+export default memo(StatesContainer)

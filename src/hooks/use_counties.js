@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-// import fetchStates from '../services/fetchStates'
 import { useParams } from 'react-router-dom'
 
 export default function useStates() {
