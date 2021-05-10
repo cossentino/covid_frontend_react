@@ -7,6 +7,7 @@ export default function useStates() {
 
   useEffect(async () => {
     const { data } = await fetch(STATES_ENDPOINT).then((resp) => resp.json())
+    debugger
     setStates(data)
   }, [])
 

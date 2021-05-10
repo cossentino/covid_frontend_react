@@ -2,9 +2,9 @@
 /* eslint-disable react/require-default-props */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import Link from 'react-router-dom'
 
-const State = ({ state }) => {
+const County = ({ state }) => {
   return (
     <div className="container col-span-1">
       <div className="relative bg-white py-6 px-6 rounded-xl my-4 shadow-md">
@@ -33,7 +33,7 @@ const State = ({ state }) => {
             </Link>
           </div>
           <div className="flex items-center text-sm p-2 rounded-sm mx-auto bg-green-100 shadow-xs cursor-pointer hover:bg-green-400 hover:text-gray-100">
-            <Link to={`/states/${state.id}/timeline`}>
+            <Link to={`/states/${state.id}/counties`}>
               <button type="button" className="show-graph btn" value={state.id}>
                 Cases over time
               </button>
@@ -45,8 +45,8 @@ const State = ({ state }) => {
   )
 }
 
-export default State
+export default County
 
-State.propTypes = {
+County.propTypes = {
   state: PropTypes.object
 }
