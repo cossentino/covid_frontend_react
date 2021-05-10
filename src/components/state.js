@@ -1,12 +1,13 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/require-default-props */
-import React from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 const State = ({ state }) => {
   return (
     <div className="container col-span-1">
-      <div className="relative bg-white py-6 px-6 rounded-3xl my-4 shadow-md">
+      <div className="relative bg-white py-6 px-6 rounded-xl my-4 shadow-md">
         <span className="text-xl font-semibold my-2">{state.attributes.name}</span>
         <div className="mt-2">
           <p className="flex justify-between">
@@ -25,14 +26,18 @@ const State = ({ state }) => {
         </div>
         <div className="flex justify-between mt-4">
           <div className="flex items-center text-sm p-2 rounded-sm mx-auto bg-green-100 shadow-xs cursor-pointer hover:bg-green-400 hover:text-gray-100">
-            <button type="button" className="show-state-detail btn" value={state.id}>
-              County Breakdown
-            </button>
+            <Link to={`/states/${state.id}/counties`}>
+              <button type="button" className="show-state-detail btn" value={state.id}>
+                County Breakdown
+              </button>
+            </Link>
           </div>
           <div className="flex items-center text-sm p-2 rounded-sm mx-auto bg-green-100 shadow-xs cursor-pointer hover:bg-green-400 hover:text-gray-100">
-            <button type="button" className="show-graph btn" value={state.id}>
-              Cases over time
-            </button>
+            <Link to={`/states/${state.id}/timeline`}>
+              <button type="button" className="show-graph btn" value={state.id}>
+                Cases over time
+              </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -40,7 +45,7 @@ const State = ({ state }) => {
   )
 }
 
-export default State
+export default memo(State)
 
 State.propTypes = {
   state: PropTypes.object

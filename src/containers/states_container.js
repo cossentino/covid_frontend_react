@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, memo } from 'react'
 import PropTypes from 'prop-types'
 import Skeleton from 'react-loading-skeleton'
 import useStates from '../hooks/use_states'
@@ -18,17 +18,16 @@ const StatesContainer = () => {
   // name, total cases, population, case_rate, state_days?, id
 
   const states = useStates()
-  console.log(states)
 
   return states.length === 0 ? (
     <Skeleton count={1} height={60} />
   ) : (
     <div className="grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-lg my-8">
       {states.map((s) => (
-        <State state={s} />
+        <State state={s} key={s.id} />
       ))}
     </div>
   )
 }
 
-export default StatesContainer
+export default memo(StatesContainer)
