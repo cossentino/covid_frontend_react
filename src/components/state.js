@@ -33,7 +33,7 @@ const State = ({ state }) => {
             </Link>
           </div>
           <div className="flex items-center text-sm p-2 rounded-sm mx-auto bg-green-100 shadow-xs cursor-pointer hover:bg-green-400 hover:text-gray-100">
-            <Link to={`/states/${state.id}/timeline`}>
+            <Link to={`/states/${state.id}/visualize`}>
               <button type="button" className="show-graph btn" value={state.id}>
                 Cases over time
               </button>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import StatesContainer from '../containers/states_container'
+import StateVisualsContainer from '../containers/visuals/state_visuals_container'
 import DataCitation from '../components/static/data_citation'
 
 export default function VisualsPage() {
@@ -8,8 +8,7 @@ export default function VisualsPage() {
 
   return (
     <div className="container gap-4 justify-between m-auto max-w-screen-lg">
-      <StatesContainer />
-      <DataCitation />
+      <StateVisualsContainer />
     </div>
   )
 }
