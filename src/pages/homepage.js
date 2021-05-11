@@ -1,5 +1,6 @@
 import React from 'react'
 import StatesContainer from '../containers/states_container'
+import DataCitation from '../components/static/data_citation'
 
 export default function Homepage() {
   return (
@@ -13,23 +14,7 @@ export default function Homepage() {
           pandemic. You can also add more recent data at the state level by clicking the &quot;Add
           Data&quot; button above. Thank you and I hope you find this tool useful.
         </p>
-        <p>
-          COVID-19{' '}
-          <a
-            className=" text-blue-500 hover:underline hover:text-blue-800"
-            href="https://github.com/nytimes/covid-19-data"
-          >
-            data
-          </a>{' '}
-          courtesy of New York Times&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Population{' '}
-          <a
-            className=" text-blue-500 hover:underline hover:text-blue-800"
-            href="https://www.census.gov/programs-surveys/popest/data/data-sets.html"
-          >
-            data
-          </a>{' '}
-          courtesy of US Census Bureau
-        </p>
+        <DataCitation />
         <StatesContainer />
       </div>
     </div>

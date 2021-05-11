@@ -8,7 +8,6 @@ import County from '../components/county'
 
 const CountiesContainer = () => {
   const counties = useCounties()
-  console.log(counties)
 
   return counties.length === 0 ? (
     <Skeleton count={1} height={60} />
