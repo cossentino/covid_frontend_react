@@ -3,10 +3,11 @@
 import React, { useState, useEffect, memo } from 'react'
 import PropTypes from 'prop-types'
 import Skeleton from 'react-loading-skeleton'
-import useStates from '../hooks/use_states'
-import State from '../components/state'
+import useStates from '../../hooks/use_states'
+import State from '../../components/state'
 
-const StatesContainer = () => {
+// Pass down state as prop, but fetch state_days from state_days endpoint
+const StateVisualsContainer = ({ state }) => {
   // const [name, setName] = useState('')
   // const [totalCases, setTotalCases] = useState(0)
   // const [population, setPopulation] = useState(0)
@@ -30,9 +31,9 @@ const StatesContainer = () => {
   )
 }
 
-export default memo(StatesContainer)
+export default memo(StateVisualsContainer)
 
-StatesContainer.propTypes = {
+StateVisualsContainer.propTypes = {
   state: PropTypes.shape({
     id: PropTypes.string,
     attributes: PropTypes.shape({
@@ -44,6 +45,6 @@ StatesContainer.propTypes = {
   })
 }
 
-StatesContainer.defaultProps = {
+StateVisualsContainer.defaultProps = {
   state: {}
 }

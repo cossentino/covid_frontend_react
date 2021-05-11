@@ -13,6 +13,7 @@
   },
   "rules": {
     // "prettier": ["warn"],
+    "no-unused-vars": ["warn"],
     "no-debugger": ["off"],
     "jsx-a11y/href-no-hash": ["off"],
     "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
