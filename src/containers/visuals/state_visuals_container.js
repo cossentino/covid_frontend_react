@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect, memo } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Skeleton from 'react-loading-skeleton'
 import useStateData from '../../hooks/use_state_data'
@@ -13,6 +13,7 @@ const StateVisualsContainer = () => {
   if (stateData.length !== 0) {
     myState = stateData[0].attributes.state
     console.log(myState)
+    console.log(stateData)
   }
 
   return myState ? (
@@ -28,10 +29,12 @@ const StateVisualsContainer = () => {
         <StateGraph stateData={stateData} myState={myState} />
       </div>
     </div>
-  ) : null
+  ) : (
+    <Skeleton count={1} height={600} />
+  )
 }
 
-export default memo(StateVisualsContainer)
+export default StateVisualsContainer
 
 // StateVisualsContainer.propTypes = {
 //   state: PropTypes.shape({
