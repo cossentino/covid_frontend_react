@@ -17,3 +17,6 @@ export default function useStateData() {
   }, [])
   return stateDays
 }
+
+// This function fetches data from the StateDays endpoint of the rails API.
+// It returns an array of structure [ {stateInfo}, [timeseriesData - cases/dates, length ~360]]

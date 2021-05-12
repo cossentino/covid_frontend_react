@@ -23,7 +23,6 @@ const StateGraph = ({ stateData, myState }) => {
   }
   return (
     <div className="container col-span-1">
-      I am the state graph!
       <Line
         data={data}
         width={100}
