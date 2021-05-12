@@ -9,19 +9,15 @@ import { oneWeekBuckets, sevenDayAverage } from '../../services/transformations'
 const StateGraph = ({ stateData, myState }) => {
   const [numGraphs, setNumGraphs] = useState(1)
   const [datasets, setDatasets] = useState([])
-  const dates = stateData.map((sd) => sd.attributes.date)
-  const dailyCases = stateData.map((sd) => (sd.attributes.cases >= 0 ? sd.attributes.cases : 0))
-  const bucketedData = oneWeekBuckets(dates, dailyCases)
-  const rollingAvg = sevenDayAverage(dates, dailyCases)
 
   const data = {
-    labels: rollingAvg.map((el) => el[0].getDate()),
+    labels: stateData.map((el) => `${el[0].getMonth()}-${el[0].getDate()}-${el[0].getFullYear()}`),
     datasets: [
       {
         label: myState.name,
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
-        data: rollingAvg.map((el) => el[1])
+        backgroundColor: 'rgba(30, 64, 175',
+        borderColor: 'rgba(30, 64, 175',
+        data: stateData.map((el) => el[1])
       }
     ]
   }
@@ -32,7 +28,10 @@ const StateGraph = ({ stateData, myState }) => {
         data={data}
         width={100}
         height={50}
-        options={{ plugins: { legend: { display: numGraphs !== 1 } } }}
+        options={{
+          plugins: { legend: { display: numGraphs !== 1 } },
+          elements: { point: { radius: 0 } }
+        }}
       />
     </div>
   )

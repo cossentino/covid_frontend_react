@@ -10,7 +10,9 @@ export default function Header() {
           <div className="text-gray-700 text-center flex items-center align-middle cursor-pointer">
             <h1 className="flex justify-center w-full">
               <Link to={ROUTES.HOMEPAGE}>
-                <span>Covid Dashboard</span>
+                <span style={{ fontSize: '20px', fontFamily: 'Roboto Condensed, sans-serif' }}>
+                  Covid Dashboard
+                </span>
               </Link>
             </h1>
           </div>

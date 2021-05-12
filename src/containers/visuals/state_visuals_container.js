@@ -11,8 +11,8 @@ const StateVisualsContainer = () => {
   const stateData = useStateData()
   let myState = null
   if (stateData.length !== 0) {
-    myState = stateData[0].attributes.state
-    console.log(myState)
+    // eslint-disable-next-line prefer-destructuring
+    myState = stateData[0]
     console.log(stateData)
   }
 
@@ -26,7 +26,7 @@ const StateVisualsContainer = () => {
         </div>
       </div>
       <div id="graph-container" className="my-3">
-        <StateGraph stateData={stateData} myState={myState} />
+        <StateGraph stateData={stateData[1]} myState={myState} />
       </div>
     </div>
   ) : (
