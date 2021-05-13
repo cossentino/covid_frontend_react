@@ -1,11 +1,7 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
 import StateVisualsContainer from '../containers/visuals/state_visuals_container'
-import DataCitation from '../components/static/data_citation'
 
 export default function VisualsPage() {
-  const stateId = useParams().id
-
   return (
     <div className="container gap-4 justify-between m-auto max-w-screen-lg">
       <StateVisualsContainer />

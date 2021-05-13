@@ -10,14 +10,18 @@ const StateCompareSelector = (props) => {
 
   return myData ? (
     <select
-      className="mx-3"
+      className="mx-3 text-gray-500"
       onChange={(e) => {
         e.preventDefault()
         props.handleSelect(e.target.value)
       }}
     >
+      <option disabled selected value>
+        {' '}
+        --Select a state--{' '}
+      </option>
       {myData.map((sn) => (
-        <option value={sn.id} key={sn.id}>
+        <option className="text-gray-900" value={sn.id} key={sn.id}>
           {sn.attributes.name}
         </option>
       ))}

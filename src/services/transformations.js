@@ -1,4 +1,3 @@
-/* eslint-disable no-plusplus */
 export function oneWeekBuckets(dates, cases) {
   const dateCaseTuples = dates.map((el, i) => [new Date(el), cases[i]])
   const output = []
