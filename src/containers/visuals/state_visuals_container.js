@@ -8,10 +8,11 @@ import { sevenDayAverage, perHundredThousand } from '../../services/transformati
 // Pass down state as prop, but fetch state_days from state_days endpoint
 const StateVisualsContainer = () => {
   const [myStateInfo, caseData] = useStateData()
-  const [compareOn, setCompareOn] = useState(false)
   const [comparisonCaseData, setComparisonCaseData] = useState([])
-  const [comparisonState, setComparisonState] = useState({})
-  const [hundredThousandOn, setHundredThousandOn] = useState(false)
+  const [comparisonState, setComparisonState] = useState(null)
+  const [compareOn, setCompareOn] = useState(false)
+  const [perCapitaOn, setPerCapitaOn] = useState(false)
+
   const handleSelect = async (stateId) => {
     const { data } = await fetch(
       `http://localhost:3000/api/v1/states/${stateId}/state_days`
@@ -21,22 +22,6 @@ const StateVisualsContainer = () => {
     setComparisonState(data[0].attributes.state)
     setComparisonCaseData(sevenDayAverage(dates, dailyCases))
   }
-
-  const handlePerHundredThousand = () => {
-    // if (caseData) {
-    //   caseData = perHundredThousand(myStateInfo.population, caseData)
-    // }
-    // if (comparisonCaseData) {
-    //   comparisonCaseData = perHundredThousand(comparisonState.population, comparisonCaseData)
-    // }
-    // console.log(caseData)
-    setHundredThousandOn(!hundredThousandOn)
-  }
-
-  const handleClickToCompare = () => {
-    setCompareOn(!compareOn)
-  }
-
   return myStateInfo ? (
     <div className="flex flex-col">
       <div className="flex justify-between py-3">
@@ -50,31 +35,30 @@ const StateVisualsContainer = () => {
         {compareOn ? <StateCompareSelector handleSelect={handleSelect} /> : null}
         <button
           type="button"
-          className="bg-red-200 text-sm hover:bg-red-400 rounded-md px-3 py-1"
-          onClick={() => handleClickToCompare()}
+          className="bg-red-200 text-sm hover:bg-red-400 rounded-md mx-1 px-3 py-1"
+          onClick={() => setCompareOn(!compareOn)}
         >
           Compare
         </button>
         <button
           type="button"
-          className="bg-red-200 text-sm hover:bg-red-400 rounded-md px-3 py-1"
-          onClick={() => handlePerHundredThousand()}
+          className="bg-red-200 text-sm hover:bg-red-400 rounded-md mx-1 px-3 py-1"
+          onClick={() => setPerCapitaOn(!perCapitaOn)}
         >
-          Per 100,000
+          {perCapitaOn ? 'Total' : 'Per 100,000'}
         </button>
       </div>
       <div id="graph-container" className="my-3">
         <StateGraph
-          caseData={
-            hundredThousandOn ? perHundredThousand(myStateInfo.population, caseData) : caseData
-          }
+          caseData={perCapitaOn ? perHundredThousand(myStateInfo.population, caseData) : caseData}
           myStateInfo={myStateInfo}
           comparisonCaseData={
-            hundredThousandOn
+            perCapitaOn
               ? perHundredThousand(comparisonState.population, comparisonCaseData)
               : comparisonCaseData
           }
-          comparisonState={comparisonState}
+          comparisonState={compareOn ? comparisonState : null}
+          showLegend={compareOn}
         />
       </div>
     </div>
