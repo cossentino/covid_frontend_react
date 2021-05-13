@@ -9,7 +9,7 @@ const StateGraph = ({ caseData, myStateInfo, comparisonCaseData, comparisonState
   let data = null
   if (caseData.length > 0) {
     data = {
-      labels: caseData[0].map((el) => {
+      labels: caseData.map((el) => {
         return formatDateLabels(el[0])
       }),
       datasets: [
@@ -17,7 +17,7 @@ const StateGraph = ({ caseData, myStateInfo, comparisonCaseData, comparisonState
           label: myStateInfo.name,
           backgroundColor: 'rgba(30, 64, 175)',
           borderColor: 'rgba(30, 64, 175)',
-          data: caseData[0].map((el) => el[1])
+          data: caseData.map((el) => el[1])
         }
       ]
     }
@@ -25,8 +25,8 @@ const StateGraph = ({ caseData, myStateInfo, comparisonCaseData, comparisonState
   if (data && comparisonCaseData.length > 0) {
     data.datasets.push({
       label: comparisonState.name,
-      backgroundColor: 'rgba(175, 175, 175)',
-      borderColor: 'rgba(175, 175, 175)',
+      backgroundColor: 'rgba(175, 0, 0)',
+      borderColor: 'rgba(175, 0, 0)',
       data: comparisonCaseData.map((el) => el[1])
     })
   }

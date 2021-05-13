@@ -5,7 +5,6 @@ import { sevenDayAverage } from '../services/transformations'
 export default function useStateData() {
   const [caseData, setCaseData] = useState([])
   const [stateInfo, setStateInfo] = useState({})
-  const [stateDataArray, setstateDataArray] = useState([])
   const stateId = useParams().id
 
   useEffect(async () => {
@@ -15,7 +14,7 @@ export default function useStateData() {
     setStateInfo(data[0].attributes.state)
     const dates = data.map((sd) => sd.attributes.date)
     const dailyCases = data.map((sd) => (sd.attributes.cases >= 0 ? sd.attributes.cases : 0))
-    setCaseData([sevenDayAverage(dates, dailyCases)])
+    setCaseData(sevenDayAverage(dates, dailyCases))
   }, [])
 
   return [stateInfo, caseData]

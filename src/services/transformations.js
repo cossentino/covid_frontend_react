@@ -31,5 +31,6 @@ export function sevenDayAverage(dates, cases) {
   return output
 }
 
-// Input - dates and cases
-// Output - Array of arrays, where date represents start of the week, cases represents average for that week
+export function perHundredThousand(population, caseData) {
+  return caseData.map((el) => [el[0], Math.round((el[1] / population) * 100000)])
+}

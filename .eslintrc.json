@@ -12,10 +12,11 @@
     "node": true
   },
   "rules": {
-    // "prettier": ["warn"],
     "no-unused-vars": ["warn"],
     "no-plusplus": ["off"],
     "no-debugger": ["off"],
+    "camelcase": ["warn"],
+    "prefer-const": ["warn"],
     "jsx-a11y/href-no-hash": ["off"],
     "import/prefer-default-export": ["off"],
     "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
