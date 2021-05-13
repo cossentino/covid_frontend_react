@@ -28,7 +28,9 @@ const StateCompareSelector = (props) => {
 export default StateCompareSelector
 
 StateCompareSelector.defaultProps = {
-  handleSelect: null
+  handleSelect() {
+    return null
+  }
 }
 
 StateCompareSelector.propTypes = {
