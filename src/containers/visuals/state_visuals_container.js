@@ -15,9 +15,18 @@ const StateVisualsContainer = () => {
   const [myStateInfo, caseData] = useStateData(filterDates.startDate, filterDates.endDate)
 
   const handleSelect = async (stateId) => {
-    const { data } = await fetch(
-      `http://localhost:3000/api/v1/states/${stateId}/state_days`
-    ).then((resp) => resp.json())
+    const urlBase = `http://localhost:3000/api/v1/states/${stateId}/state_days`
+    let url = ''
+    if (filterDates.startDate && filterDates.endDate) {
+      url = `${urlBase}?start_date=${filterDates.startDate}&end_date=${filterDates.endDate}`
+    } else if (filterDates.startDate) {
+      url = `${urlBase}?start_date=${filterDates.startDate}`
+    } else if (filterDates.endDate) {
+      url = `${urlBase}?end_date=${filterDates.endDate}`
+    } else {
+      url = urlBase
+    }
+    const { data } = await fetch(url).then((resp) => resp.json())
     const dates = data.map((sd) => sd.attributes.date)
     const dailyCases = data.map((sd) => (sd.attributes.cases >= 0 ? sd.attributes.cases : 0))
     setComparisonState(data[0].attributes.state)
@@ -35,18 +44,22 @@ const StateVisualsContainer = () => {
       </div>
       <div className="flex justify-between">
         <div id="date-filter" className="flex justify-between">
-          <span>Start date</span>
-          <input
-            type="date"
-            className="bg-red-200 text-sm hover:bg-red-400 rounded-md mx-1 px-3 py-1"
-            onChange={(e) => setFilterDates({ ...filterDates, startDate: e.target.value })}
-          />
-          <span>End date</span>
-          <input
-            type="date"
-            className="bg-red-200 text-sm hover:bg-red-400 rounded-md mx-1 px-3 py-1"
-            onChange={(e) => setFilterDates({ ...filterDates, endDate: e.target.value })}
-          />
+          <div className="flex items-center">
+            <span>Start date: </span>
+            <input
+              type="date"
+              className="text-sm rounded-md mx-2 px-3 py-1"
+              onChange={(e) => setFilterDates({ ...filterDates, startDate: e.target.value })}
+            />
+          </div>
+          <div className="flex items-center">
+            <span>End date: </span>
+            <input
+              type="date"
+              className="text-sm rounded-md mx-2 px-3 py-1"
+              onChange={(e) => setFilterDates({ ...filterDates, endDate: e.target.value })}
+            />
+          </div>
         </div>
         <div className="flex">
           {compareOn ? <StateCompareSelector handleSelect={handleSelect} /> : null}

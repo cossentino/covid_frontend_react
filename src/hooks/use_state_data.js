@@ -14,6 +14,8 @@ export default function useStateData(startDate = null, endDate = null) {
       url = `${urlBase}?start_date=${startDate}&end_date=${endDate}`
     } else if (startDate) {
       url = `${urlBase}?start_date=${startDate}`
+    } else if (endDate) {
+      url = `${urlBase}?end_date=${endDate}`
     } else {
       url = urlBase
     }
