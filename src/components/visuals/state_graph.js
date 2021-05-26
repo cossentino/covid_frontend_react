@@ -4,43 +4,34 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Line } from 'react-chartjs-2'
 import { formatDateLabels } from '../../services/format'
+import { sevenDayAverage } from '../../services/transformations'
 
-const StateGraph = ({ caseData, myStateInfo, comparisonCaseData, comparisonState, showLegend }) => {
+const StateGraph = ({ stateInfo, cases, dates }) => {
   let data = null
-  if (caseData.length > 0) {
+  if (cases.length > 0) {
+    const sevenDayAvg = sevenDayAverage(dates, cases)
     data = {
-      labels: caseData.map((el) => {
-        return formatDateLabels(el[0])
-      }),
+      labels: dates,
       datasets: [
         {
-          label: myStateInfo.name,
+          label: stateInfo.stateName,
           backgroundColor: 'rgba(30, 64, 175)',
           borderColor: 'rgba(30, 64, 175)',
-          data: caseData.map((el) => el[1])
+          data: sevenDayAvg
         }
       ]
     }
-  }
-  if (comparisonState) {
-    data.datasets.push({
-      label: comparisonState.name,
-      backgroundColor: 'rgba(175, 0, 0)',
-      borderColor: 'rgba(175, 0, 0)',
-      data: comparisonCaseData.map((el) => el[1])
-    })
   }
 
   return (
     <div className="container col-span-1">
       {data ? (
         <Line
-          key={data.datasets.length}
           data={data}
           width={100}
           height={50}
           options={{
-            plugins: { legend: { display: showLegend } },
+            plugins: { legend: { display: true } },
             elements: { point: { radius: 0 } }
           }}
         />
@@ -52,9 +43,7 @@ const StateGraph = ({ caseData, myStateInfo, comparisonCaseData, comparisonState
 export default StateGraph
 
 StateGraph.propTypes = {
-  caseData: PropTypes.array,
-  myStateInfo: PropTypes.object,
-  comparisonCaseData: PropTypes.array,
-  comparisonState: PropTypes.object,
-  showLegend: PropTypes.bool
+  cases: PropTypes.array,
+  dates: PropTypes.array,
+  stateInfo: PropTypes.object
 }

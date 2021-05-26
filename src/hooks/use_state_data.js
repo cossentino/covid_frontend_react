@@ -1,32 +1,31 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { sevenDayAverage } from '../services/transformations'
+import { generateTimeSeriesUrl } from '../services/format'
+import stateMapper from '../constants/state_mapper'
 
 export default function useStateData(startDate = null, endDate = null) {
-  const [caseData, setCaseData] = useState([])
+  const [timeSeriesData, setTimeSeriesData] = useState([])
   const [stateInfo, setStateInfo] = useState({})
-  const stateId = useParams().id
+  const stateAbbrev = useParams().abbrev
 
   useEffect(async () => {
-    const urlBase = `http://localhost:3000/api/v1/states/${stateId}/state_days`
-    let url = ''
-    if (startDate && endDate) {
-      url = `${urlBase}?start_date=${startDate}&end_date=${endDate}`
-    } else if (startDate) {
-      url = `${urlBase}?start_date=${startDate}`
-    } else if (endDate) {
-      url = `${urlBase}?end_date=${endDate}`
-    } else {
-      url = urlBase
-    }
-    const { data } = await fetch(url).then((resp) => resp.json())
-    const dates = data.map((sd) => sd.attributes.date)
-    const dailyCases = data.map((sd) => (sd.attributes.cases >= 0 ? sd.attributes.cases : 0))
-    setStateInfo(data[0].attributes.state)
-    setCaseData(sevenDayAverage(dates, dailyCases))
-  }, [startDate, endDate])
-
-  return [stateInfo, caseData]
+    const url = generateTimeSeriesUrl(stateAbbrev, startDate, endDate)
+    const data = await fetch(url).then((resp) => resp.json())
+    setTimeSeriesData(
+      data.actualsTimeseries.map((series) => {
+        return [series.date, series.cases]
+      })
+    )
+    setStateInfo({
+      stateName: stateMapper[stateAbbrev],
+      population: data.population,
+      lastUpdatedDate: data.lastUpdatedDate,
+      totalCases: data.actuals.cases,
+      totalDeaths: data.actuals.deaths
+    })
+  }, [stateAbbrev])
+  return [stateInfo, timeSeriesData]
 }
 
 // This function fetches data from the StateDays endpoint of the rails API.

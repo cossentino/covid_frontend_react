@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
+const API_ENDPOINT =
+  'https://api.covidactnow.org/v2/states.json?apiKey=229ed0d259874d8f94d9f0a34e1c1e28'
+
 const StateCompareSelector = (props) => {
-  const [myData, setData] = useState([])
+  const [stateNames, setStateNames] = useState([])
+
   useEffect(async () => {
-    const { data } = await fetch('http://localhost:3000/api/v1/states').then((resp) => resp.json())
-    setData(data)
+    const data = await fetch(API_ENDPOINT).then((resp) => resp.json())
+    const stateNameResponse = data.map((s) => s.state)
+    setStateNames(stateNameResponse)
   }, [])
 
-  return myData ? (
+  return stateNames ? (
     <select
       className="mx-3 text-gray-500"
       onChange={(e) => {
@@ -17,12 +22,11 @@ const StateCompareSelector = (props) => {
       }}
     >
       <option disabled selected value>
-        {' '}
-        --Select a state--{' '}
+        --Select a state--
       </option>
-      {myData.map((sn) => (
-        <option className="text-gray-900" value={sn.id} key={sn.id}>
-          {sn.attributes.name}
+      {stateNames.map((sn) => (
+        <option className="text-gray-900" value={sn} key={sn}>
+          {sn}
         </option>
       ))}
     </select>

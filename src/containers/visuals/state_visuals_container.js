@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import useStateData from '../../hooks/use_state_data'
+import onSelectComparisonState from '../../services/eventHandlers/on_select_comparison_state'
 import StateGraph from '../../components/visuals/state_graph'
 import StateCompareSelector from '../../components/visuals/state_compare_selector'
 import { sevenDayAverage, perHundredThousand } from '../../services/transformations'
+import { generateTimeSeriesUrl } from '../../services/format'
 
 // Pass down state as prop, but fetch state_days from state_days endpoint
 const StateVisualsContainer = () => {
@@ -12,34 +14,35 @@ const StateVisualsContainer = () => {
   const [compareOn, setCompareOn] = useState(false)
   const [perCapitaOn, setPerCapitaOn] = useState(false)
   const [filterDates, setFilterDates] = useState({ startDate: null, endDate: null })
-  const [myStateInfo, caseData] = useStateData(filterDates.startDate, filterDates.endDate)
 
   const handleSelect = async (stateId) => {
-    const urlBase = `http://localhost:3000/api/v1/states/${stateId}/state_days`
-    let url = ''
-    if (filterDates.startDate && filterDates.endDate) {
-      url = `${urlBase}?start_date=${filterDates.startDate}&end_date=${filterDates.endDate}`
-    } else if (filterDates.startDate) {
-      url = `${urlBase}?start_date=${filterDates.startDate}`
-    } else if (filterDates.endDate) {
-      url = `${urlBase}?end_date=${filterDates.endDate}`
-    } else {
-      url = urlBase
-    }
-    const { data } = await fetch(url).then((resp) => resp.json())
-    const dates = data.map((sd) => sd.attributes.date)
-    const dailyCases = data.map((sd) => (sd.attributes.cases >= 0 ? sd.attributes.cases : 0))
-    setComparisonState(data[0].attributes.state)
-    setComparisonCaseData(sevenDayAverage(dates, dailyCases))
+    const [myState, myCaseData] = await onSelectComparisonState(
+      stateId,
+      filterDates.startDate,
+      filterDates.endDate
+    )
+    console.log(myState)
+    setComparisonState(myState)
+    setComparisonCaseData(myCaseData)
   }
 
-  return myStateInfo ? (
+  const [stateInfo, timeSeriesData] = useStateData()
+  const dates = timeSeriesData.map((el) => el[0])
+  const cases = timeSeriesData.map((el, i) => {
+    if (i > 0 && el[1] != null) {
+      return el[1] - timeSeriesData[i - 1][1]
+    }
+    return el[1]
+  })
+
+  return (
     <div className="flex flex-col">
       <div className="flex justify-between py-3">
-        <h3 className="font-bold text-5xl text-blue-800">{myStateInfo.name}</h3>
+        <h3 className="font-bold text-5xl text-blue-800">{stateInfo.stateName}</h3>
         <div className="flex flex-col align-middle">
-          <span>Population: {myStateInfo.population} </span>
-          <span>Total Cases: {myStateInfo.total_cases} </span>
+          <span>Population: {stateInfo.population} </span>
+          <span>Total Cases: {stateInfo.totalCases} </span>
+          <span>Total Deaths: {stateInfo.totalDeaths} </span>
         </div>
       </div>
       <div className="flex justify-between">
@@ -79,22 +82,16 @@ const StateVisualsContainer = () => {
           </button>
         </div>
       </div>
-      <div id="graph-container" className="my-3">
-        <StateGraph
-          caseData={perCapitaOn ? perHundredThousand(myStateInfo.population, caseData) : caseData}
-          myStateInfo={myStateInfo}
-          comparisonCaseData={
-            perCapitaOn && compareOn && comparisonState
-              ? perHundredThousand(comparisonState.population, comparisonCaseData)
-              : comparisonCaseData
-          }
-          comparisonState={compareOn ? comparisonState : null}
-          showLegend={compareOn}
-        />
+      <div id="graph-container" className="my-3 flex flex-col items-center justify-between">
+        <div>
+          <p className=" w-auto m-4 p-4 rounded-sm border border-red-600">
+            Displayed is a rolling seven-day average of COVID-19 cases reported on that day and the
+            six previous days.
+          </p>
+        </div>
+        <StateGraph cases={cases} dates={dates} stateInfo={stateInfo} />
       </div>
     </div>
-  ) : (
-    <Skeleton count={1} height={600} />
   )
 }
 

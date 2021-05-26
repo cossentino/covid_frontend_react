@@ -14,10 +14,10 @@ function App() {
         <Route path="/" exact>
           <Homepage />
         </Route>
-        <Route path="/states/:id/counties">
+        <Route path="/states/:abbrev/counties">
           <CountiesContainer />
         </Route>
-        <Route path="/states/:id/visualize">
+        <Route path="/states/:abbrev/visualize">
           <VisualsPage />
         </Route>
       </Router>

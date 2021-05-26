@@ -3,42 +3,45 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import stateMapper from '../constants/state_mapper'
+import fipsToIdMapper from '../constants/fips_to_id'
 
 const State = ({ state }) => {
   return (
     <div className="container col-span-1">
       <div className="relative bg-white py-6 px-6 rounded-xl my-4 shadow-md">
-        <span className="text-xl font-semibold my-2">{state.attributes.name}</span>
+        <span className="text-xl font-semibold my-2">{stateMapper[state.stateAbbrev]}</span>
         <div className="mt-2">
           <p className="flex justify-between">
             <span className="text-sm font-semibold">Total Cases:</span>
-            <span className="text-sm">{state.attributes.total_cases}</span>
+            <span className="text-sm">{state.totals.cases}</span>
           </p>
           <p className="flex justify-between">
             <span className="text-sm font-semibold">Population:</span>
-            <span className="text-sm">{state.attributes.population}</span>
+            <span className="text-sm">{state.population}</span>
           </p>
           <p className="flex justify-between">
-            <span className="text-sm font-semibold">Cases as % of Pop:</span>
-            <span className="text-sm">{state.attributes.case_rate}</span>
+            <span className="text-sm font-semibold">Last Updated:</span>
+            <span className="text-sm">{state.lastUpdatedDate}</span>
           </p>
-          {/* <p>Most recent entry: ${stateDays[stateDays.length - 1].date}</p> */}
         </div>
         <div className="flex justify-between mt-4">
-          <div className="flex items-center text-sm p-2 rounded-sm mx-auto bg-green-100 shadow-xs cursor-pointer hover:bg-green-400 hover:text-gray-100">
-            <Link to={`/states/${state.id}/counties`}>
-              <button type="button" className="show-state-detail btn" value={state.id}>
-                County Breakdown
-              </button>
-            </Link>
-          </div>
-          <div className="flex items-center text-sm p-2 rounded-sm mx-auto bg-green-100 shadow-xs cursor-pointer hover:bg-green-400 hover:text-gray-100">
-            <Link to={`/states/${state.id}/visualize`}>
-              <button type="button" className="show-graph btn" value={state.id}>
-                Cases over time
-              </button>
-            </Link>
-          </div>
+          <Link to={`/states/${state.stateAbbrev}/counties`}>
+            <button
+              type="button"
+              className="flex items-center text-sm p-2 rounded-sm mx-auto bg-green-100 shadow-xs cursor-pointer hover:bg-green-400 hover:text-gray-100"
+            >
+              County Breakdown
+            </button>
+          </Link>
+          <Link to={`/states/${state.stateAbbrev}/visualize`}>
+            <button
+              className="flex items-center text-sm p-2 rounded-sm mx-auto bg-green-100 shadow-xs cursor-pointer hover:bg-green-400 hover:text-gray-100"
+              type="button"
+            >
+              Cases over time
+            </button>
+          </Link>
         </div>
       </div>
     </div>
