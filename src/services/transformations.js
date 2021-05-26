@@ -30,7 +30,10 @@ export function sevenDayAverage(dates, cases) {
   return output
 }
 
+// Cases data has form [[date, cases], [date, cases]]
 export function perHundredThousand(population, cases) {
   console.log(population)
-  return cases.map((el) => Math.round(el / population) * 100000)
+  const ret = cases.map((el) => [el[0], Math.round((el[1] / population) * 100000)])
+  console.log(ret)
+  return ret
 }

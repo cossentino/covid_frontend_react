@@ -15,15 +15,10 @@ const StateVisualsContainer = () => {
   const [perCapitaOn, setPerCapitaOn] = useState(false)
   const [filterDates, setFilterDates] = useState({ startDate: null, endDate: null })
 
-  const handleSelect = async (stateId) => {
-    const [myState, myCaseData] = await onSelectComparisonState(
-      stateId,
-      filterDates.startDate,
-      filterDates.endDate
-    )
-    console.log(myState)
-    setComparisonState(myState)
-    setComparisonCaseData(myCaseData)
+  const handleSelect = async (stateName) => {
+    const myData = await onSelectComparisonState(stateName)
+    setComparisonState(myData[0])
+    setComparisonCaseData(myData[1])
   }
 
   const [stateInfo, timeSeriesData] = useStateData()
@@ -89,7 +84,15 @@ const StateVisualsContainer = () => {
             six previous days.
           </p>
         </div>
-        <StateGraph cases={cases} dates={dates} stateInfo={stateInfo} />
+        <StateGraph
+          cases={cases}
+          dates={dates}
+          stateInfo={stateInfo}
+          compareTimeSeries={comparisonCaseData}
+          comparisonState={comparisonState}
+          compareOn={compareOn}
+          perCapitaOn={perCapitaOn}
+        />
       </div>
     </div>
   )
