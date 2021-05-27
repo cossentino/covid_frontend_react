@@ -23,6 +23,7 @@ export default async function fetchState(
     .then((json) => {
       const formattedDict = {}
       formattedDict.stateName = stateMapper[json.state]
+      formattedDict.stateAbbrev = json.state
       formattedDict.population = json.population
       formattedDict.totalCases = json.actuals.cases
       if (includeTimeseries) {

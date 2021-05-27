@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import StateGraph from '../../components/visuals/state_graph'
 import StateCompareSelector from '../../components/visuals/state_compare_selector'
@@ -14,14 +14,6 @@ const StateVisualsContainer = () => {
 
   const myState = useParams().abbrev
 
-  useEffect(() => {
-    async function fetchData() {
-      const stateDict = await fetchState(myState, true, filterDates.start, filterDates.end)
-      setState1(stateDict)
-    }
-    fetchData()
-  }, [myState, filterDates.start, filterDates.end])
-
   const handleSelect = async (stateAbbrev) => {
     const myComparisonState = await fetchState(
       stateAbbrev,
@@ -31,6 +23,23 @@ const StateVisualsContainer = () => {
     )
     setState2(myComparisonState)
   }
+
+  useEffect(() => {
+    async function fetchData() {
+      const stateDict1 = await fetchState(myState, true, filterDates.start, filterDates.end)
+      setState1(stateDict1)
+      if (Object.keys(state2).length > 0) {
+        const stateDict2 = await fetchState(
+          state2.stateAbbrev,
+          true,
+          filterDates.start,
+          filterDates.end
+        )
+        setState2(stateDict2)
+      }
+    }
+    fetchData()
+  }, [myState, filterDates])
 
   return (
     <div className="flex flex-col">
