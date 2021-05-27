@@ -1,43 +1,51 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Skeleton from 'react-loading-skeleton'
+import { useParams } from 'react-router-dom'
 import useStateData from '../../hooks/use_state_data'
 import onSelectComparisonState from '../../services/eventHandlers/on_select_comparison_state'
 import StateGraph from '../../components/visuals/state_graph'
 import StateCompareSelector from '../../components/visuals/state_compare_selector'
-import { sevenDayAverage, perHundredThousand } from '../../services/transformations'
-import { generateTimeSeriesUrl } from '../../services/format'
+import stateMapper from '../../constants/state_mapper'
+import fetchState from '../../services/dataHandler'
 
 // Pass down state as prop, but fetch state_days from state_days endpoint
 const StateVisualsContainer = () => {
-  const [comparisonCaseData, setComparisonCaseData] = useState([])
-  const [comparisonState, setComparisonState] = useState(null)
+  const [state1, setState1] = useState({})
+  const [state2, setState2] = useState({})
   const [compareOn, setCompareOn] = useState(false)
   const [perCapitaOn, setPerCapitaOn] = useState(false)
-  const [filterDates, setFilterDates] = useState({ startDate: null, endDate: null })
+  const [filterDates, setFilterDates] = useState({ start: null, end: null })
 
-  const handleSelect = async (stateName) => {
-    const myData = await onSelectComparisonState(stateName)
-    setComparisonState(myData[0])
-    setComparisonCaseData(myData[1])
-  }
+  const myState = useParams().abbrev
 
-  const [stateInfo, timeSeriesData] = useStateData()
-  const dates = timeSeriesData.map((el) => el[0])
-  const cases = timeSeriesData.map((el, i) => {
-    if (i > 0 && el[1] != null) {
-      return el[1] - timeSeriesData[i - 1][1]
+  console.log(fetchState('MA', true, '2021-05-01', '2021-05-02'))
+
+  useEffect(() => {
+    async function fetchData() {
+      const stateDict = await fetchState(myState, true, filterDates.start, filterDates.end)
+      setState1(stateDict)
     }
-    return el[1]
-  })
+    fetchData()
+  }, [myState, filterDates.start, filterDates.end])
+
+  const handleSelect = async (stateAbbrev) => {
+    const myComparisonState = await fetchState(
+      stateAbbrev,
+      true,
+      filterDates.start,
+      filterDates.end
+    )
+    setState2(myComparisonState)
+  }
 
   return (
     <div className="flex flex-col">
       <div className="flex justify-between py-3">
-        <h3 className="font-bold text-5xl text-blue-800">{stateInfo.stateName}</h3>
+        <h3 className="font-bold text-5xl text-blue-800">{state1.stateName}</h3>
         <div className="flex flex-col align-middle">
-          <span>Population: {stateInfo.population} </span>
-          <span>Total Cases: {stateInfo.totalCases} </span>
-          <span>Total Deaths: {stateInfo.totalDeaths} </span>
+          <span>Population: {state1.population} </span>
+          <span>Total Cases: {state1.totalCases} </span>
+          {/* <span>Total Deaths: {stateInfo.totalDeaths} </span> */}
         </div>
       </div>
       <div className="flex justify-between">
@@ -85,11 +93,8 @@ const StateVisualsContainer = () => {
           </p>
         </div>
         <StateGraph
-          cases={cases}
-          dates={dates}
-          stateInfo={stateInfo}
-          compareTimeSeries={comparisonCaseData}
-          comparisonState={comparisonState}
+          state1={state1}
+          state2={state2}
           compareOn={compareOn}
           perCapitaOn={perCapitaOn}
         />

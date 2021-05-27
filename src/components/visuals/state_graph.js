@@ -3,8 +3,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Line } from 'react-chartjs-2'
-import { formatDateLabels } from '../../services/format'
-import { perHundredThousand, sevenDayAverage } from '../../services/transformations'
+import { filterByDate, perHundredThousand, sevenDayAverage } from '../../services/transformations'
 
 const StateGraph = ({
   stateInfo,
@@ -13,7 +12,8 @@ const StateGraph = ({
   compareTimeSeries,
   comparisonState,
   perCapitaOn,
-  compareOn
+  compareOn,
+  filterDates
 }) => {
   let data = null
 
@@ -37,7 +37,7 @@ const StateGraph = ({
     data.datasets = [
       ...data.datasets,
       {
-        label: 'Test label',
+        label: comparisonState.stateName,
         backgroundColor: 'rgba(175, 64, 175)',
         borderColor: 'rgba(175, 64, 175)',
         data: sevenDayAverage(myDates, myCases)
@@ -63,6 +63,14 @@ const StateGraph = ({
     }
   }
 
+  if (filterDates.startDate && filterDates.endDate) {
+    data.datasets = data.datasets.map((ds) => {
+      return { ...ds, data: filterByDate(ds.data, filterDates.startDate, filterDates.endDate) }
+    })
+    data.labels = data.labels.filter(
+      (date) => date >= filterDates.startDate && date <= filterDates.endDate
+    )
+  }
   return (
     <div className="container col-span-1">
       {data ? (
@@ -89,5 +97,6 @@ StateGraph.propTypes = {
   compareTimeSeries: PropTypes.array,
   comparisonState: PropTypes.object,
   perCapitaOn: PropTypes.bool,
-  compareOn: PropTypes.bool
+  compareOn: PropTypes.bool,
+  filterDates: PropTypes.object
 }

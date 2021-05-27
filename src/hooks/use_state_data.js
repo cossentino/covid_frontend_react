@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { sevenDayAverage } from '../services/transformations'
 import { generateTimeSeriesUrl } from '../services/format'
-import stateMapper from '../constants/state_mapper'
 
 export default function useStateData(startDate = null, endDate = null) {
   const [timeSeriesData, setTimeSeriesData] = useState([])
@@ -18,7 +17,7 @@ export default function useStateData(startDate = null, endDate = null) {
       })
     )
     setStateInfo({
-      stateName: stateMapper[stateAbbrev],
+      stateName: stateAbbrev,
       population: data.population,
       lastUpdatedDate: data.lastUpdatedDate,
       totalCases: data.actuals.cases,

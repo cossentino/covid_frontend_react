@@ -5,7 +5,7 @@ const onSelectComparisonState = async (stateName) => {
   const url = generateTimeSeriesUrl(stateName)
   const data = await fetch(url).then((resp) => resp.json())
   return [
-    { stateName: data.name, population: data.population },
+    { stateName: data.state, population: data.population },
     data.actualsTimeseries.map((day) => [day.date, day.newCases])
   ]
 }
