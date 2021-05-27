@@ -7,10 +7,13 @@ const API_ENDPOINT =
 const StateCompareSelector = (props) => {
   const [stateNames, setStateNames] = useState([])
 
-  useEffect(async () => {
-    const data = await fetch(API_ENDPOINT).then((resp) => resp.json())
-    const stateNameResponse = data.map((s) => s.state)
-    setStateNames(stateNameResponse)
+  useEffect(() => {
+    async function fetchData() {
+      const data = await fetch(API_ENDPOINT).then((resp) => resp.json())
+      const stateNameResponse = data.map((s) => s.state)
+      setStateNames(stateNameResponse)
+    }
+    fetchData()
   }, [])
 
   return stateNames ? (

@@ -38,6 +38,7 @@ const StateVisualsContainer = () => {
         setState2(stateDict2)
       }
     }
+    console.log('use effect fires')
     fetchData()
   }, [myState, filterDates])
 

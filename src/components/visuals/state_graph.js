@@ -18,6 +18,8 @@ const StateGraph = ({ state1, state2, compareOn, perCapitaOn, filterDates }) => 
     )
   }
 
+  console.log('state graph renders')
+
   return (
     <div className="container col-span-1">
       {data ? (

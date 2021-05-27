@@ -11,7 +11,7 @@ function filterCasesByDate(dates, cases, start, end) {
 }
 
 // return dict with state specs and timeseries data
-// structure {abbrev, pop, totalcases, timeseries}
+// structure {abbrev, pop, totalcases, timeseries: {dates: [], cases: []}}
 export default async function fetchState(
   stateAbbrev,
   includeTimeseries = false,
