@@ -18,8 +18,6 @@ const StateVisualsContainer = () => {
 
   const myState = useParams().abbrev
 
-  console.log(fetchState('MA', true, '2021-05-01', '2021-05-02'))
-
   useEffect(() => {
     async function fetchData() {
       const stateDict = await fetchState(myState, true, filterDates.start, filterDates.end)
