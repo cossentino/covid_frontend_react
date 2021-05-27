@@ -49,7 +49,7 @@ const StateVisualsContainer = () => {
             <input
               type="date"
               className="text-sm rounded-md mx-2 px-3 py-1"
-              onChange={(e) => setFilterDates({ ...filterDates, startDate: e.target.value })}
+              onChange={(e) => setFilterDates({ ...filterDates, start: e.target.value })}
             />
           </div>
           <div className="flex items-center">
@@ -57,7 +57,7 @@ const StateVisualsContainer = () => {
             <input
               type="date"
               className="text-sm rounded-md mx-2 px-3 py-1"
-              onChange={(e) => setFilterDates({ ...filterDates, endDate: e.target.value })}
+              onChange={(e) => setFilterDates({ ...filterDates, end: e.target.value })}
             />
           </div>
         </div>
@@ -91,6 +91,7 @@ const StateVisualsContainer = () => {
           state2={state2}
           compareOn={compareOn}
           perCapitaOn={perCapitaOn}
+          filterDates={filterDates}
         />
       </div>
     </div>

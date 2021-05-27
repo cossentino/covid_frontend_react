@@ -5,10 +5,17 @@ import PropTypes from 'prop-types'
 import { Line } from 'react-chartjs-2'
 import createChartDataObj from '../../services/chartjs/chartjs'
 
-const StateGraph = ({ state1, state2, compareOn, perCapitaOn }) => {
+const StateGraph = ({ state1, state2, compareOn, perCapitaOn, filterDates }) => {
   let data = null
   if (Object.keys(state1).length !== 0) {
-    data = createChartDataObj(state1, state2, compareOn, perCapitaOn)
+    data = createChartDataObj(
+      state1,
+      state2,
+      compareOn,
+      perCapitaOn,
+      filterDates.start,
+      filterDates.end
+    )
   }
 
   return (
@@ -34,5 +41,6 @@ StateGraph.propTypes = {
   state1: PropTypes.object,
   state2: PropTypes.object,
   perCapitaOn: PropTypes.bool,
-  compareOn: PropTypes.bool
+  compareOn: PropTypes.bool,
+  filterDates: PropTypes.object
 }

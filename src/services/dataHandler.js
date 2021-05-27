@@ -1,19 +1,13 @@
 import { perHundredThousand, sevenDayAverage } from './transformations'
 import stateMapper from '../constants/state_mapper'
 
-function generateStateUrl(state, start = null, end = null) {
-  const urlBase = `https://api.covidactnow.org/v2/state/${state}.timeseries.json?apiKey=229ed0d259874d8f94d9f0a34e1c1e28`
-  let url = ''
-  if (start && end) {
-    url = `${urlBase}?start_date=${start}&end_date=${end}`
-  } else if (start) {
-    url = `${urlBase}?start_date=${start}`
-  } else if (end) {
-    url = `${urlBase}?end_date=${end}`
-  } else {
-    url = urlBase
-  }
-  return url
+function generateStateUrl(state) {
+  return `https://api.covidactnow.org/v2/state/${state}.timeseries.json?apiKey=229ed0d259874d8f94d9f0a34e1c1e28`
+}
+function filterCasesByDate(dates, cases, start, end) {
+  return cases.filter((day, i) => {
+    return dates[i] >= start && dates[i] <= end
+  })
 }
 
 // return dict with state specs and timeseries data
@@ -24,7 +18,7 @@ export default async function fetchState(
   start = null,
   end = null
 ) {
-  const data = await fetch(generateStateUrl(stateAbbrev, start, end))
+  const data = await fetch(generateStateUrl(stateAbbrev))
     .then((resp) => resp.json())
     .then((json) => {
       const formattedDict = {}
@@ -38,6 +32,11 @@ export default async function fetchState(
             return day.newCases ? day.newCases : 0
           })
         }
+      }
+      if ('timeSeries' in formattedDict && start && end) {
+        const myDates = formattedDict.timeSeries.dates
+        const myCases = formattedDict.timeSeries.cases
+        formattedDict.timeSeries.cases = filterCasesByDate(myDates, myCases, start, end)
       }
       return formattedDict
     })

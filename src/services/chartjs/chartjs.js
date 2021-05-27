@@ -1,13 +1,24 @@
 import { sevenDayAverage, perHundredThousand, filterByDate } from '../transformations'
 
+function filterLabelsByDate(labels, start = null, end = null) {
+  if (start && end) {
+    return labels.filter((day, i) => {
+      return labels[i] >= start && labels[i] <= end
+    })
+  }
+  return labels
+}
+
 export default function createChartDataObj(
   state1,
   state2 = null,
   compareOn = false,
-  perCapitaOn = false
+  perCapitaOn = false,
+  start = null,
+  end = null
 ) {
   const dataObj = {
-    labels: state1.timeSeries.dates,
+    labels: filterLabelsByDate(state1.timeSeries.dates, start, end),
     datasets: [
       {
         label: state1.stateName,
