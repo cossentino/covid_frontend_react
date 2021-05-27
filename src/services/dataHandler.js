@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
 import { perHundredThousand, sevenDayAverage } from './transformations'
 import stateMapper from '../constants/state_mapper'
 
@@ -37,7 +35,7 @@ export default async function fetchState(
         formattedDict.timeSeries = {
           dates: json.actualsTimeseries.map((day) => day.date),
           cases: json.actualsTimeseries.map((day) => {
-            return day.cases ? day.cases : 0
+            return day.newCases ? day.newCases : 0
           })
         }
       }

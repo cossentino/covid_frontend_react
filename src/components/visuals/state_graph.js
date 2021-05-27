@@ -3,13 +3,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Line } from 'react-chartjs-2'
-import { filterByDate, perHundredThousand, sevenDayAverage } from '../../services/transformations'
 import createChartDataObj from '../../services/chartjs/chartjs'
 
 const StateGraph = ({ state1, state2, compareOn, perCapitaOn }) => {
   let data = null
   if (Object.keys(state1).length !== 0) {
-    data = createChartDataObj(state1, state2, perCapitaOn)
+    data = createChartDataObj(state1, state2, compareOn, perCapitaOn)
   }
 
   return (

@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import Skeleton from 'react-loading-skeleton'
 import { useParams } from 'react-router-dom'
-import useStateData from '../../hooks/use_state_data'
-import onSelectComparisonState from '../../services/eventHandlers/on_select_comparison_state'
 import StateGraph from '../../components/visuals/state_graph'
 import StateCompareSelector from '../../components/visuals/state_compare_selector'
-import stateMapper from '../../constants/state_mapper'
 import fetchState from '../../services/dataHandler'
 
 // Pass down state as prop, but fetch state_days from state_days endpoint
