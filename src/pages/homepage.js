@@ -11,8 +11,7 @@ export default function Homepage() {
           This tool allows you to view state-level data about COVID-19 cases in the US. Right now,
           the data for most states is current as of March 8, 2021. Click on a state to view total
           cases on a county level, or to view a graph of statewide cases since the beginning of the
-          pandemic. You can also add more recent data at the state level by clicking the &quot;Add
-          Data&quot; button above. Thank you and I hope you find this tool useful.
+          pandemic. Thank you and I hope you find this tool useful.
         </p>
         <DataCitation />
         <StatesContainer />

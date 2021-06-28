@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import StateGraph from '../../components/visuals/state_graph'
 import StateCompareSelector from '../../components/visuals/state_compare_selector'
@@ -38,7 +38,6 @@ const StateVisualsContainer = () => {
         setState2(stateDict2)
       }
     }
-    console.log('use effect fires')
     fetchData()
   }, [myState, filterDates])
 

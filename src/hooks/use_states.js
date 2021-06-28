@@ -8,10 +8,7 @@ export default function useStates() {
 
   useEffect(async () => {
     const response = await fetch(STATES_ENDPOINT, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      method: 'GET'
     }).then((resp) => resp.json())
     const formattedResponse = response.map((s) => {
       return {

@@ -2,10 +2,10 @@ export function sevenDayAverage(cases) {
   const output = []
   for (let i = 6; i < cases.length; i++) {
     let sum = 0
-    for (let j = i - 6; j < i; j++) {
+    for (let j = i - 6; j <= i; j++) {
       sum += cases[j]
     }
-    output.push(sum)
+    output.push(sum / 7)
   }
   return output
 }
