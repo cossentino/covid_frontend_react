@@ -5,6 +5,5 @@ export default async function useCounties(stateAbbrev) {
     .then((json) => {
       return json
     })
-  console.log(data)
   return data
 }

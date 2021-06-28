@@ -6,25 +6,28 @@ const STATES_ENDPOINT = `https://api.covidactnow.org/v2/states.json?apiKey=${API
 export default function useStates() {
   const [states, setStates] = useState([])
 
-  useEffect(async () => {
-    const response = await fetch(STATES_ENDPOINT, {
-      method: 'GET'
-    }).then((resp) => resp.json())
-    const formattedResponse = response.map((s) => {
-      return {
-        fips: s.fips,
-        lastUpdatedDate: s.lastUpdatedDate,
-        population: s.population,
-        stateAbbrev: s.state,
-        totals: {
-          cases: s.actuals.cases,
-          deaths: s.actuals.deaths,
-          vaccinationsCompleted: s.actuals.vaccinationsCompleted,
-          vaccinationsInitiated: s.actuals.vaccinationsInitiated
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch(STATES_ENDPOINT, {
+        method: 'GET'
+      }).then((resp) => resp.json())
+      const formattedResponse = response.map((s) => {
+        return {
+          fips: s.fips,
+          lastUpdatedDate: s.lastUpdatedDate,
+          population: s.population,
+          stateAbbrev: s.state,
+          totals: {
+            cases: s.actuals.cases,
+            deaths: s.actuals.deaths,
+            vaccinationsCompleted: s.actuals.vaccinationsCompleted,
+            vaccinationsInitiated: s.actuals.vaccinationsInitiated
+          }
         }
-      }
-    })
-    setStates(formattedResponse)
+      })
+      setStates(formattedResponse)
+    }
+    fetchData()
   }, [])
 
   return states
