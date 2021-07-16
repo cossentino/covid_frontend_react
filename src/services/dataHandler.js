@@ -1,15 +1,14 @@
-import { perHundredThousand, sevenDayAverage } from './transformations'
 import stateMapper from '../constants/state_mapper'
 
-function generateStateUrl(state) {
-  return `https://api.covidactnow.org/v2/state/${state}.timeseries.json?apiKey=229ed0d259874d8f94d9f0a34e1c1e28`
+function generateStateUrl(stateCode) {
+  return `https://api.covidactnow.org/v2/state/${stateCode}.timeseries.json?apiKey=229ed0d259874d8f94d9f0a34e1c1e28`
 }
+
 function filterCasesByDate(dates, cases, start, end) {
-  return cases.filter((day, i) => {
+  return cases.filter((i) => {
     return dates[i] >= start && dates[i] <= end
   })
 }
-
 // return dict with state specs and timeseries data
 // structure {abbrev, pop, totalcases, timeseries: {dates: [], cases: []}}
 export default async function fetchState(
@@ -34,6 +33,7 @@ export default async function fetchState(
           })
         }
       }
+      debugger
       if ('timeSeries' in formattedDict && start && end) {
         const myDates = formattedDict.timeSeries.dates
         const myCases = formattedDict.timeSeries.cases

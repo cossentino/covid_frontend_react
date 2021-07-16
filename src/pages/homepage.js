@@ -8,10 +8,9 @@ export default function Homepage() {
       <div id="welcome-paragraph" className="container">
         <h3 className="text-lg text-red-800 font-semibold">Welcome!</h3>
         <p className="mb-5">
-          This tool allows you to view state-level data about COVID-19 cases in the US. Right now,
-          the data for most states is current as of March 8, 2021. Click on a state to view total
-          cases on a county level, or to view a graph of statewide cases since the beginning of the
-          pandemic. Thank you and I hope you find this tool useful.
+          This tool allows you to view state-level data about COVID-19 cases in the US. Click on a
+          state to view total cases on a county level, or to view a graph of statewide cases since
+          the beginning of the pandemic. Thank you and I hope you find this tool useful.
         </p>
         <DataCitation />
         <StatesContainer />

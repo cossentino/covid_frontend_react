@@ -21,7 +21,8 @@ export default function useStates() {
             cases: s.actuals.cases,
             deaths: s.actuals.deaths,
             vaccinationsCompleted: s.actuals.vaccinationsCompleted,
-            vaccinationsInitiated: s.actuals.vaccinationsInitiated
+            vaccinationsInitiated: s.actuals.vaccinationsInitiated,
+            perCapitaCases: Math.floor((s.actuals.cases / s.population) * 100000)
           }
         }
       })

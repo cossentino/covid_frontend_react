@@ -4,7 +4,6 @@ import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import stateMapper from '../constants/state_mapper'
-import fipsToIdMapper from '../constants/fips_to_id'
 
 const State = ({ state }) => {
   return (
@@ -12,18 +11,22 @@ const State = ({ state }) => {
       <div className="relative bg-white py-6 px-6 rounded-xl my-4 shadow-md">
         <span className="text-xl font-semibold my-2">{stateMapper[state.stateAbbrev]}</span>
         <div className="mt-2">
-          <p className="flex justify-between">
+          <div className="flex justify-between">
             <span className="text-sm font-semibold">Total Cases:</span>
             <span className="text-sm">{state.totals.cases}</span>
-          </p>
-          <p className="flex justify-between">
+          </div>
+          <div className="flex justify-between">
             <span className="text-sm font-semibold">Population:</span>
             <span className="text-sm">{state.population}</span>
-          </p>
-          <p className="flex justify-between">
+          </div>
+          <div className="flex justify-between">
+            <span className="text-sm font-semibold">Cases per 100,000 Residents:</span>
+            <span className="text-sm">{state.totals.perCapitaCases}</span>
+          </div>
+          <div className="flex justify-between">
             <span className="text-sm font-semibold">Last Updated:</span>
             <span className="text-sm">{state.lastUpdatedDate}</span>
-          </p>
+          </div>
         </div>
         <div className="flex justify-between mt-4">
           <Link to={`/states/${state.stateAbbrev}/counties`}>

@@ -7,10 +7,7 @@ import County from '../components/county'
 
 const CountiesContainer = () => {
   const myState = useParams().abbrev
-  const counties = []
-  // useEffect(() => {
-  //   const counties = useCounties(myState)
-  // })
+  const counties = useCounties(myState)
 
   return counties.length === 0 ? (
     <Skeleton count={1} height={600} />

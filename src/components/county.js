@@ -8,20 +8,20 @@ const County = ({ county }) => {
   return (
     <div className="container col-span-1">
       <div className="relative bg-white py-6 px-6 rounded-xl my-4 shadow-md">
-        <span className="text-xl font-semibold my-2">{county.attributes.name}</span>
+        <span className="text-xl font-semibold my-2">{county.name}</span>
         <div className="mt-2">
-          <p className="flex justify-between">
+          <div className="flex justify-between">
             <span className="text-sm font-semibold">Total Cases:</span>
-            <span className="text-sm">{county.attributes.total_cases}</span>
-          </p>
-          <p className="flex justify-between">
+            <span className="text-sm">{county.totals.cases}</span>
+          </div>
+          <div className="flex justify-between">
             <span className="text-sm font-semibold">Population:</span>
-            <span className="text-sm">{county.attributes.population}</span>
-          </p>
-          <p className="flex justify-between">
-            <span className="text-sm font-semibold">Cases as % of Pop:</span>
-            <span className="text-sm">{county.attributes.case_rate}</span>
-          </p>
+            <span className="text-sm">{county.population}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-sm font-semibold">Cases per 100,000 Residents:</span>
+            <span className="text-sm">{county.totals.perCapitaCases}</span>
+          </div>
         </div>
       </div>
     </div>
