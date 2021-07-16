@@ -4,11 +4,16 @@ function generateStateUrl(stateCode) {
   return `https://api.covidactnow.org/v2/state/${stateCode}.timeseries.json?apiKey=229ed0d259874d8f94d9f0a34e1c1e28`
 }
 
-function filterCasesByDate(dates, cases, start, end) {
-  return cases.filter((i) => {
-    return dates[i] >= start && dates[i] <= end
-  })
+function filterTimeSeries(start, end, timeSeriesDict) {
+  const output = {}
+  const startIdx = timeSeriesDict.dates.indexOf(start)
+  const endIdx = timeSeriesDict.dates.indexOf(end)
+  output.dates = timeSeriesDict.dates.slice(startIdx, endIdx + 1)
+  output.cases = timeSeriesDict.cases.slice(startIdx, endIdx + 1)
+  debugger
+  return output
 }
+
 // return dict with state specs and timeseries data
 // structure {abbrev, pop, totalcases, timeseries: {dates: [], cases: []}}
 export default async function fetchState(
@@ -33,11 +38,11 @@ export default async function fetchState(
           })
         }
       }
-      debugger
       if ('timeSeries' in formattedDict && start && end) {
-        const myDates = formattedDict.timeSeries.dates
-        const myCases = formattedDict.timeSeries.cases
-        formattedDict.timeSeries.cases = filterCasesByDate(myDates, myCases, start, end)
+        formattedDict.timeSeries = filterTimeSeries(start, end, formattedDict.timeSeries)
+        // const myDates = formattedDict.timeSeries.dates
+        // const myCases = formattedDict.timeSeries.cases
+        // formattedDict.timeSeries.cases = filterCasesByDate(myDates, myCases, start, end)
       }
       return formattedDict
     })
