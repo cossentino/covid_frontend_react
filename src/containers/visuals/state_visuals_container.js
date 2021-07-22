@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import StateGraph from '../../components/visuals/state_graph'
 import StateCompareSelector from '../../components/visuals/state_compare_selector'
-import fetchState from '../../services/dataHandler'
+import fetchState from '../../services/fetch-state'
 
-// Pass down state as prop, but fetch state_days from state_days endpoint
 const StateVisualsContainer = () => {
   const [state1, setState1] = useState({})
   const [state2, setState2] = useState({})
@@ -12,8 +11,7 @@ const StateVisualsContainer = () => {
   const [perCapitaOn, setPerCapitaOn] = useState(false)
   const [filterDates, setFilterDates] = useState({ start: null, end: null })
 
-  const myState = useParams().abbrev
-
+  const stateCode = useParams().abbrev
   const handleSelect = async (stateAbbrev) => {
     const myComparisonState = await fetchState(
       stateAbbrev,
@@ -26,7 +24,7 @@ const StateVisualsContainer = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const stateDict1 = await fetchState(myState, true, filterDates.start, filterDates.end)
+      const stateDict1 = await fetchState(stateCode, true, filterDates.start, filterDates.end)
       setState1(stateDict1)
       if (Object.keys(state2).length > 0) {
         const stateDict2 = await fetchState(
@@ -39,7 +37,7 @@ const StateVisualsContainer = () => {
       }
     }
     fetchData()
-  }, [myState, filterDates])
+  }, [stateCode, filterDates])
 
   return (
     <div className="flex flex-col">
@@ -48,7 +46,6 @@ const StateVisualsContainer = () => {
         <div className="flex flex-col align-middle">
           <span>Population: {state1.population} </span>
           <span>Total Cases: {state1.totalCases} </span>
-          {/* <span>Total Deaths: {stateInfo.totalDeaths} </span> */}
         </div>
       </div>
       <div className="flex justify-between">
