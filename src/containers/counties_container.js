@@ -1,6 +1,5 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-// import PropTypes from 'prop-types'
 import Skeleton from 'react-loading-skeleton'
 import useCounties from '../hooks/use_counties'
 import County from '../components/county'

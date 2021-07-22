@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Homepage from './pages/homepage'
 import Header from './components/header'
 import CountiesContainer from './containers/counties_container'
-import VisualsPage from './pages/visuals_page'
+import GraphContainer from './containers/visuals/graph-container'
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
           <CountiesContainer />
         </Route>
         <Route path="/states/:abbrev/visualize">
-          <VisualsPage />
+          <GraphContainer />
         </Route>
       </Router>
     </div>
