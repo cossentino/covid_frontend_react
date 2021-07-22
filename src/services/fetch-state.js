@@ -1,7 +1,8 @@
 import stateMapper from '../constants/state_mapper'
+import * as ROUTES from '../constants/routes'
 
-function generateStateUrl(stateCode) {
-  return `https://api.covidactnow.org/v2/state/${stateCode}.timeseries.json?apiKey=229ed0d259874d8f94d9f0a34e1c1e28`
+function stateURL(stateCode) {
+  return `https://api.covidactnow.org/v2/state/${stateCode}.timeseries.json?apiKey=${ROUTES.API_KEY}`
 }
 
 function filterTimeSeries(start, end, timeSeriesDict) {
@@ -10,7 +11,6 @@ function filterTimeSeries(start, end, timeSeriesDict) {
   const endIdx = timeSeriesDict.dates.indexOf(end)
   output.dates = timeSeriesDict.dates.slice(startIdx, endIdx + 1)
   output.cases = timeSeriesDict.cases.slice(startIdx, endIdx + 1)
-  debugger
   return output
 }
 
@@ -22,7 +22,8 @@ export default async function fetchState(
   start = null,
   end = null
 ) {
-  const data = await fetch(generateStateUrl(stateAbbrev))
+  // Fetch JSON object representing information for a single state
+  const data = await fetch(stateURL(stateAbbrev))
     .then((resp) => resp.json())
     .then((json) => {
       const formattedDict = {}
@@ -30,6 +31,9 @@ export default async function fetchState(
       formattedDict.stateAbbrev = json.state
       formattedDict.population = json.population
       formattedDict.totalCases = json.actuals.cases
+
+      // The same method is used whether fetching state data for a state card or for a graph.
+      // If fetching for graph, pull out date and either the cases from that day or 0 if missing
       if (includeTimeseries) {
         formattedDict.timeSeries = {
           dates: json.actualsTimeseries.map((day) => day.date),
@@ -38,13 +42,14 @@ export default async function fetchState(
           })
         }
       }
+
+      // If start and end dates specified, edit timeseries data to reflect date cutoffs
       if ('timeSeries' in formattedDict && start && end) {
         formattedDict.timeSeries = filterTimeSeries(start, end, formattedDict.timeSeries)
-        // const myDates = formattedDict.timeSeries.dates
-        // const myCases = formattedDict.timeSeries.cases
-        // formattedDict.timeSeries.cases = filterCasesByDate(myDates, myCases, start, end)
       }
+
       return formattedDict
     })
+
   return data
 }

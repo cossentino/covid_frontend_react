@@ -22,10 +22,3 @@ export function perHundredThousand(population, cases) {
   const ret = cases.map((day) => Math.round((day / population) * 100000))
   return ret
 }
-
-export function filterByDate(dateCaseArrays, start, end) {
-  const filteredData = dateCaseArrays.filter(
-    (el) => el[0] >= new Date(start) && el[0] <= new Date(end)
-  )
-  return filteredData
-}

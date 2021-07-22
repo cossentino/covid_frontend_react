@@ -14,6 +14,5 @@ export function generateTimeSeriesUrl(stateName, startDate = null, endDate = nul
   } else {
     url = urlBase
   }
-  console.log(url)
   return url
 }
