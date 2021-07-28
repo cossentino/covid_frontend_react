@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react'
 import PropTypes from 'prop-types'
-import StateGraph from '../components/visuals/state_graph'
+import Graph from '../components/visuals/graph'
 import StateCompareSelector from '../components/visuals/state_compare_selector'
 
 export default function GraphPage({
@@ -69,7 +69,7 @@ export default function GraphPage({
               six previous days.
             </p>
           </div>
-          <StateGraph
+          <Graph
             state1={state1}
             state2={state2}
             compareOn={compareOn}
